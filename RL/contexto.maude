@@ -1,0 +1,26 @@
+*** Contextos
+
+load formula .
+
+fmod CONTEXTO is
+    protecting FORMULA .
+
+    *** Tipo
+    sorts Contexto ContextoClassico ContextoLinear .
+    *** Vazio
+    op empty : -> Contexto [ctor] .
+    *** Toda fórmula é um set (unitário)
+    subsort Formula < Contexto .
+
+    *** Comport conjuntos
+    op _,_ : Contexto Contexto -> Contexto [ctor assoc comm prec 40 id: empty] .
+
+    op {_} : Contexto -> ContextoLinear [ctor] .
+    op [_] : Contexto -> ContextoClassico [ctor] .
+
+    *** Idempotencia
+    eq [ F:Formula, F:Formula ] = [F:Formula] .
+    eq [ F:Formula, F:Formula, T:Contexto ] = [F:Formula, T:Contexto] .
+
+ 
+endfm

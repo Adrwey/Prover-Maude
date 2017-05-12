@@ -1,0 +1,36 @@
+*** Sequentes
+
+load contexto .
+
+fmod SEQUENTE is
+    protecting CONTEXTO .
+    protecting META-LEVEL .
+    *** Tipo
+    sort Sequente .
+    sort SSequente . *** Conjuntos de sequentes
+
+    subsort Sequente < SSequente .
+
+    *** Construtor
+    op _;_|--_;_ : ContextoClassico ContextoLinear ContextoClassico ContextoLinear -> Sequente [ctor prec 50 format(b o r o b o r o )] .
+    op proved : -> Sequente [ctor format(g d)] .
+    op error : -> Sequente [ctor format(r d)] .
+
+    *** Conjuntos de sequentes
+    op _||_ : SSequente SSequente -> SSequente [ctor assoc prec 60 comm] .
+
+    ***não provar 2 vezes o mesmo sequente.
+    eq proved || S:Sequente = S:Sequente .
+    eq S:Sequente || S:Sequente = S:Sequente .
+
+    *** Deixando os "Meta-Comandos" intuitivo
+
+  op MetaReduce _ in _ : Sequente Qid -> Sequente .
+  eq MetaReduce Termo:Sequente in Modulo:Qid =
+  downTerm(getTerm(metaReduce(upModule(Modulo:Qid, false), upTerm(Termo:Sequente))),error) .
+
+  op MetaReduce _ in _ applying _ : Sequente Qid Qid -> Sequente .
+  eq MetaReduce Termo:Sequente in Modulo:Qid applying Regra:Qid =
+  downTerm( getTerm( metaXapply( upModule( Modulo:Qid, false), upTerm(Termo:Sequente), Regra:Qid, none, 0, unbounded, 0)), error) .
+
+endfm

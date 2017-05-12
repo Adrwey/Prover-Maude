@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<title>Prover for Simply Dependent Multimodal Linear Systems</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="jquery.min.js"></script>
+<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="index.css">
+<style type="text/css">
+.botao{
+    font-size: 15px;
+    margin: 1px;
+}
+.tamanho{
+  width: 310px;
+  height: 200px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+#box{
+  height: 10px;
+  width: 100%;
+  transition: background 1s;
+
+}
+</style>
+<script>
+function checkModalities(VT, V4, VD){
+  document.form1.RT.checked = VT;
+  document.form1.R4.checked = V4;
+  document.form1.RD.checked = VD;
+}
+
+
+function adiciona(identidade){
+  var cont;
+  cont = document.getElementById(identidade).innerHTML;
+
+  if (cont == '?') {
+      document.getElementById('icode').value = document.getElementById('icode').value + '?(  ,  ) ';
+  }
+  else if(cont == '!'){
+      document.getElementById('icode').value = document.getElementById('icode').value + '!(  ,  ) ';
+  }
+  else if(cont == '&amp;'){
+    var cont = cont.substr(0,1);
+    document.getElementById('icode').value = document.getElementById('icode').value + cont + " ";
+  }
+  else{
+    document.getElementById('icode').value = document.getElementById('icode').value + cont + " ";
+  }
+  document.getElementById('icode').focus();
+}
+
+function adda(iddentidade){
+  var cont;
+  cont = document.getElementById(iddentidade).innerHTML;
+  document.getElementById('icode').value = " " + cont + " ";
+}
+
+/*setInterval(function(){  
+ $.ajax({
+            method: "post",
+            url: "form2.php",
+            data: {ncode: $("input#icode").val() },
+        success: function(data){
+          if(data.match(/proved/)){
+            $("#box").css("background","#82FA58");
+          }
+          else{
+            $("#box").css("background","#FE2E2E");
+             //alert(data);
+          } 
+        }
+
+    }); 
+
+ }, 1000);
+ */
+
+</script>
+</head>
+
+<body>
+<center><h2>Prover for Simply Dependent Multimodal Linear Systems </h2></center>
+<br>
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+  <!-- Conteúdo do Modal-->
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="modal-title"><kbd>Derivation Tree</kbd></h4>
+  </div>
+
+
+
+  <div id="conteudo">
+
+  <div class="modal-body">
+  <iframe name="output_frame" src="" id="output_frame" width="100%" height="600px" frameBorder="0" scrolling="yes">
+  </iframe>  
+  </div>
+
+  </div>
+
+
+  <div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+  </div>
+  </div>
+</div>
+
+
+<ul class="nav nav-tabs">
+  <li class="active tab1"><a data-toggle="tab" href="#home">SDML</a></li>
+  <li><a data-toggle="tab" href="#menu1">ABOUT</a></li>
+</ul>
+
+<div class="tab-content">
+<div id="home" class="tab-pane fade in active">          
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+     
+    </div>
+<div class="col-sm-6">
+       <h4><kbd>Formula</kbd></h4>
+      <div class="backback"> 
+      <a href="#"><h3 class="botao" id="botao1" onclick="adiciona('botao1')">⊗</h3></a>
+      <a href="#"><h3 class="botao" id="botao2" onclick='adiciona("botao2")' >&amp;</h3></a>
+      <a href="#"><h3 class="botao" id="botao3" onclick="adiciona('botao3')" >⅋</h3></a>
+      <a href="#"><h3 class="botao" id="botao4" onclick="adiciona('botao4')" >⊕</h3></a>
+      <a href="#"><h3 class="botao" id="botao5" onclick="adiciona('botao5')" >^</h3></a>
+      <a href="#"><h3 class="botao" id="botao6" onclick="adiciona('botao6')" >¬</h3></a>
+      <a href="#"><h3 class="botao" id="botao7" onclick="adiciona('botao7')" >⊥</h3></a>
+      <a href="#"><h3 class="botao" id="botao8" onclick="adiciona('botao8')" >⊤</h3></a>
+      <a href="#"><h3 class="botao" id="botao9" onclick="adiciona('botao9')" >0</h3></a>
+      <a href="#"><h3 class="botao" id="botao10" onclick="adiciona('botao10')">1</h3></a>
+      <a href="#"><h3 class="botao" id="botao11" onclick="adiciona('botao11')">?</h3></a>  
+      <a href="#"><h3 class="botao" id="botao12" onclick="adiciona('botao12')">!</h3></a>
+      <a href="#"><h3 class="botao" data-toggle="modal" data-target="#myModal1">prop</h3></a> 
+
+      <form method="post" class="formu" action="form.php" target="output_frame" name="form1">
+        <input type="text" class="input input-xlarge" name="ncode" id="icode" size=64%></textarea>
+        <br>
+        <div id="box"></div>
+        <input type="submit" class="btn btn-success" value="Prove" data-toggle="modal" data-target="#myModal">
+        <input type="checkbox" name="RT" value="T">T
+        <input type="checkbox" name="RD" value="D" >D
+        <input type="checkbox" name="R4" value="4" >4
+      </form>
+      </div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="tamanho">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="container">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default">p</button>
+              <button type="button" class="btn btn-default">q</button>
+              <button type="button" class="btn btn-default">r</button>
+              <button type="button" class="btn btn-default">s</button>
+              <button type="button" class="btn btn-default">t</button>
+              <button type="button" class="btn btn-default">'a</button>
+              <button type="button" class="btn btn-default">'b</button>
+              <button type="button" class="btn btn-default">'c</button>
+            </div>
+          </div>
+        </div>
+       
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Alinhado -->
+</div>
+</div>
+</div>
+</div>
+
+
+ <!-- modal position -->
+  
+  <!--
+  <div class="conteiner">
+  <center>
+  <h4><kbd>Derivation Tree</kbd></h4>
+  <iframe name="output_frame" src="" id="output_frame" width="100%" height="350" frameBorder="0" scrolling="no">
+  </center>
+  </iframe>   
+  </div>
+  -->
+  <div id="menu1" class="tab-pane fade">
+
+  <div class="container">
+  <h4><kbd>Description</kbd></h4>
+  It is well known that context dependent logical rules can be hard to both, implement and reason about. This is one of the reasons for the quest for better behaved logical systems. 
+  Here we use linear nested sequents to propose a general framework for describing systems based on multiplicative additive linear logic plus simply dependent multimodalities. This class of systems includes linear logic with subexponentials (SELL). 
+  This implementation is a generic way of building theorem provers for different logics, all of them based on the same grounds. The theoretical bases can be found <a href="paper.pdf">here</a>. For further information, please contact 
+  <a href="https://www.logic.at/staffpages/lellmann">Bjoern Lellmann</a>, 
+  <a href="https://sites.google.com/site/elainepimentel/">Elaine Pimentel</a> or  <a href="https://sites.google.com/site/carlosolarte/">Carlos Olarte</a>. We thank <a href="mailto:Allan.Sossego@hotmail.com">Allan Marques</a> 
+  for his help in implementing this site. 
+
+  <h4><kbd>The Prover</kbd></h4>
+  You first need to download <a href="http://maude.cs.illinois.edu/w/index.php?title=The_Maude_System">Maude</a> (we used the version  2.7.1). 
+  The source files can be downloaded <a href="prover.zip">here</a>. 
+  <br>
+  To perform a quick test, run the Maude interpreter with the file ex_ll.maude:
+  <pre><code> maude ex_ll.maude </code></pre>
+
+  And then, try the following:
+  <pre><code> search [1] prove(p , p ^) =>* T .  </code></pre>
+
+  In this case, the underlying logic is SELL (K + T + 4). Exponentials are natural numbers, all of them linear and ordered as usual. 
+  <h4>Defining SDML</h4>
+  Simply dependent multimodal linear systems (SDML), different from SELL, can be defined by writing the appropriate signature (some examples are given in file signature.maude). This can be done by adapting the following template:
+  <pre><code>load ll .
+
+  fmod SIG_CONF is
+  protecting NAT .
+  protecting STRING .
+  protecting CONVERSION .
+  op U : Nat -> Bool . *** The unbounded subexponentials
+  op RD : Nat -> Bool . *** Subexponentials featuring D
+  op RT : Nat -> Bool . *** Subexponentials featuring T
+  op R4 : Nat -> Bool . *** Subexponentials featuring 4
+op RK : Nat -> Bool . *** Subexponentials featuring K (all of them)
+  op _leq_ : Nat Nat -> Bool . *** The preorder relation
+  op toString : Nat -> String .
+  vars x y : Nat .
+  *** ======= CONFIGURABLE PART ***
+  eq U(x) = ToBeDefined .
+  eq RK(x) = ToBeDefined .
+  eq RT(x) = ToBeDefined .
+  eq R4(x) = ToBeDefined .
+  eq RD(x) = ToBeDefined .
+  eq (x leq y) = (x <= y) .
+  eq toString(x) = string(x, 10) .
+  *** ======= CONFIGURABLE PART ***
+
+  endfm
+
+  view S_CONF from SIGNATURE to SIG_CONF is
+  sort Subexp to Nat .
+  op U to U .
+  op RK to RK .
+  op RD to RD .
+  op RT to RT .
+  op R4 to R4 .
+  op leq to leq .
+  op toString to toString .
+  endv
+
+  mod TEST is
+  protecting LL{S_CONF} .
+  protecting TOTEX{S_CONF} .
+  vars T : PTree{S_CONF} .
+
+  protecting META-LEVEL * (
+      op _,_ : Set{X} Set{X} -> Set{X} to comma ,
+      op _,_ : Map{X,Y} Map{X,Y} -> Map{X,Y} to comma ,
+      op _,_ : NeGroundTermList GroundTermList -> NeGroundTermList to comma ,
+      op _+_ : ModuleExpression ModuleExpression -> ModuleExpression to plus
+      ) .
+
+  endm
+  </code></pre>
+  Change the "ToBeDefined" parts with true/false as needed. It is also possible to use a different signature for the subexponentials. See for instance the signature SIG_TIME in signature.maude. 
+  </div>
+  </div>
+  </div>
+  
+  </body>
+  </html>
+

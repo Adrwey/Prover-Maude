@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>TESTE</title>
+	<style type="text/css">
+	
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="jquery.min.js"></script>
+	<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<script src="bootstrap.min.js"></script>
+</head>
+<body>
+
+	<fieldset>
+		<h1>Exemplo 1</h1>
+		<!--<input type="button" value="$.ajax()" id='ajax'><br> -->
+		<div id="algo"> [C',F] ; {empty} |-- [D'] ; {D,~ F + ~ G } </div>
+		<br>[C'] ; G  |-- [D'] ; {F + G} 
+		<br>[C'] ; {! F} |-- [D'] ; {~ (F & G), D}
+		<br/>
+		<div id='conteudo_ajax'></div><br>
+	</fieldset>
+
+	<script type= "text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+	 var verdadeiro;
+		 
+	function do_something(){
+		alert("AAAAAAAAAA");
+	}
+	function soma1(){
+		alert(verdadeiro);
+
+			/*
+				$.ajax({
+					method: 'post',
+					url: 'new2.php',
+					data: {ncode: verdadeiro },
+					success: function(retorno){
+						$('#conteudo_ajax').html(retorno);
+
+					}
+				});	*/
+			
+			
+	}
+	function soma2(){
+		alert("AAAAAAAAAASOMA2");
+	}
+
+
+		$(document).ready(function(){
+			$('#ajax').on('click', AJAX);
+			
+			function AJAX(){
+				$.ajax({
+					method: 'post',
+					url: 'new2.php',
+					data: {ncode: "asfdasf" },
+					success: function(retorno){
+						$('#conteudo_ajax').html(retorno);
+
+					}
+				});	
+			}
+		var palavra = $("div#algo").text();	
+		verdadeiro = palavra;
+		var vseq = palavra.split("||");
+
+		for(var i = 0; i < vseq.length; i++){
+			//alert(vseq[i]);
+			 var partes = vseq[i].split("|--");
+			 var antes = partes[0];
+			 var depois = partes[1];
+			 var contextos = depois.split(";");
+			 var classico = contextos[0];// contexto classico [... ]
+  			 var linear = contextos[1]; // contexto linear {... }
+  			 var formula = linear.slice(2,linear.length-2);
+  			 var sublinear = formula.split(",");
+  			 
+  			 for (var i = 0; i < sublinear.length; i++) {
+  			 	if(sublinear[i].match(/~\D?\(\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\)/ig)){
+  			 		//alert(sublinear[i]);
+  			 		//alert(palavra.lastIndexOf(sublinear[i]));
+  			 		var chapeu = sublinear[i].indexOf("~");
+  			 		var parens = sublinear[i].indexOf("(");
+  			 		
+  			 		var corte1 = sublinear[i].slice(chapeu,parens+1);
+  			 		var corte2 = sublinear[i].slice(parens, sublinear[i].length);
+  			 		
+  			 		
+
+  			 		palavra1 = palavra.replace(sublinear[i], "<button class='negacao' >"+corte1+"</button>"+corte2);
+
+  			 		//alert(palavra1);
+  			 		 $("#button1").click(function(){
+      					//$("#div1").append(palavra1);
+      					var comeco = palavra1.indexOf("<button");
+      					var fim = palavra1.indexOf("/button>");
+      					var cut1 = palavra1.slice(0,comeco);
+      					var Op = palavra1.slice(comeco,fim+7);
+      					const newBtn = $(Op);
+      					newBtn.click(do_something);
+
+      					var cut3 = palavra1.slice(fim+8, palavra1.length);
+      					$("#div1").append(cut1);
+      					$("#div1").append(newBtn);
+      					$("#div1").append(cut3);
+      					
+
+        				});
+        				
+  			 			break;
+  			 	}
+  			 	else if(sublinear[i].match(/\(\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\D?\)/ig)){
+  			 		alert("AINDA EM CONSTRUCAO!");
+
+  			 		
+  			 	}
+  			 	else if(sublinear[i].match(/\D?\D?\D?\+\D?\D?\D?\D?/ig)){
+  			 		var PosOp = sublinear[i].indexOf("+");
+  			 		var Operador = sublinear[i].slice(PosOp, PosOp+1);
+  			 		var PriOP = sublinear[i].slice(0, PosOp);
+  			 		var SegOP = sublinear[i].slice(PosOp+1, sublinear[i].length);
+  			 		
+  			 		palavra2 = palavra.replace(sublinear[i], "<button class='soma1' >"+PriOP+"</button>"+Operador+"<button class='soma2'>"+SegOP+"</button>");
+
+  			 		 $("#button1").click(function(){
+      					//$("#div1").append(palavra1);
+      					var comOp1 = palavra2.indexOf("<button");
+      					var fimOp1 = palavra2.indexOf("/button>")+8;
+      					var comOp2 = palavra2.lastIndexOf("<button");
+      					var fimOp2 = palavra2.lastIndexOf("/button>")+8;
+      					var parte1 = palavra2.slice(0,comOp1);
+      					var Op1 = palavra2.slice(comOp1,fimOp1);
+      					const newBtn1 = $(Op1);
+      					newBtn1.click(soma1);
+      					var Op = palavra2.slice(fimOp1,comOp2);
+      					var Op2 = palavra2.slice(comOp2,fimOp2);
+      					const newBtn2 = $(Op2);
+      					newBtn2.click(soma2);
+      					var parte2 = palavra2.slice(fimOp2, palavra2.length);
+      					$("#div1").append(parte1, newBtn1, Op, newBtn2, parte2);
+      					//$("#div1").append(newBtn);
+      					//$("#div1").append(cut3);
+      					
+
+        				});
+  			 		
+  			 	}
+  			 	else{
+  			 		alert("NADA ENCONTRADO!");
+  			 	}
+
+  			 }
+
+  		
+			  
+			/*for(var j = 0; j < contextos.length; j++){
+			 	alert(contextos[j]);
+			 }\ */
+
+			 
+		}
+		
+
+		
+
+		});
+
+	</script>
+	<div id='div1'> </div>
+	<br><button id = 'button1'> AA </button> <br>
+	<div id='conteudo_ajax'>.  <div>
+</body>
+</html>

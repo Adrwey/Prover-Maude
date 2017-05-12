@@ -1,0 +1,31 @@
+*** Formulas
+fmod FORMULA is
+    *** Definição dos novos tipos
+    sort Prop .
+    sort Formula .
+
+    *** Toda proposição é uma fórmula
+    subsort Prop < Formula .
+
+    *** Proposições
+    ops p q r s t a b c d : -> Prop [ctor] .
+
+    *** Formulas
+    op _x_ : Formula Formula -> Formula [ctor assoc comm prec 15] .
+    op _8_ : Formula Formula -> Formula [ctor assoc comm prec 15] .
+    op _&_ : Formula Formula -> Formula [ctor assoc prec 20] .
+    op _+_ : Formula Formula -> Formula [ctor assoc prec 20] .
+
+    *** bang e question
+    op !_ : Formula -> Formula [ctor] .
+    op ?_ : Formula -> Formula [ctor] .
+
+    op ~_ : Formula -> Formula [prec 10] .
+    op _-o_ : Formula Formula -> Formula [prec 15] .
+
+    op I : -> Formula [ctor] .
+    op 1 : -> Formula [ctor] .
+    op 0 : -> Formula [ctor] .
+    op T : -> Formula [ctor] .
+
+endfm

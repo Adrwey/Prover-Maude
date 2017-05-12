@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<title>Prover for Simply Dependent Multimodal Linear Systems</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="jquery.min.js"></script>
+<!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="bootstrap.min.js"></script>
+
+<script type="text/javascript">	
+</script>
+<style type="text/css">
+	.container{
+		width: 40%;
+	}
+
+</style>
+
+</head>
+
+
+<body>
+	
+
+   <div class="container">
+	  
+	  <ul class="nav nav-tabs">
+	    <li class="active"><a onclick='checkModalities(false,false,false);' data-toggle="tab" href="#home">K</a></li>
+	    <li><a data-toggle="tab" onclick='checkModalities(true,true,false);' href="#kt4">SELL(KT4)</a></li>
+	    <li><a data-toggle="tab" onclick='checkModalities(false,true,false);' href="#K4">K+4</a></li>
+	    <li><a data-toggle="tab" onclick='checkModalities(false,false,true);' href="#KD">K+D</a></li>
+	    <li><a data-toggle="tab" onclick='checkModalities(true,false,false);' href="#KT">K+T</a></li>
+	    <li><a data-toggle="tab" onclick='checkModalities(false,true,true);' href="#KD4">K+D+4</a></li>
+	    <li><a data-toggle="tab" href="#syntax">Syntax</a></li>
+	  </ul>
+
+	  <div class="tab-content">
+	    <div id="home" class="tab-pane fade in active">
+		          <pre><code>
+<a href="#" id="a4" onclick="adda('a4')">?(5, p + q) , ?(4, r + t), !(1, p ^ * t ^) </a><br>
+<a href="#" id="a5" onclick="adda('a5')">?(1, q)  && ?(1, p)  && !(1, p ^ * q ^)</a><br>
+<a href="#" id="a6" onclick="adda('a6')">?(1, p * q ^) && ?(1, p ^) && !(1, q)</a>
+          </code></pre>
+      </code></pre>
+	    </div>
+	    <div id="kt4" class="tab-pane fade">
+	      <pre><code>
+<a href="#" id="a1" onclick="adda('a1')">?(1, p) , !(1, !(1, p ^))</a><br>
+<a href="#" id="a2" onclick="adda('a2')">?(1, (p * one) + q ) , !(1, p ^)</a><br>
+<a href="#" id="a3" onclick="adda('a3')">?(1, p), ?(2, q), ?(3, r), !(1, p ^) * !(2, q ^) * !(3, r ^) * one</a>
+          </code></pre>
+	    </div>
+	    
+	    <div id="K4" class="tab-pane fade">
+	       <pre><code>
+<a href="#" id="a7" onclick="adda('a7')">?(1, p), !(1, !(1, p ^))</a>
+<a href="#" id="a8" onclick="adda('a8')">?(3, p + q), !(2, !(1, p ^ ))</a>
+<a href="#" id="a9" onclick="adda('a9')">?(5, p) , ?(4, q), !(2, !(1, p ^ * q ^))</a>
+<a href="#" id="a10" onclick="adda('a10')">?(3, p ^) , !(2, !(1, p))</a>
+        </code></pre>
+	    </div>
+	    <div id="KD" class="tab-pane fade">
+	      <pre><code>
+<a href="#" id="a11" onclick="adda('a11')">?(1,p) , ?(1, p ^)</a><br>
+<a href="#" id="a12" onclick="adda('a12')">?(2,?(1, p)) , ?(2, !(1, p ^))</a><br>
+<a href="#" id="a13" onclick="adda('a13')">?(1, ?(1, p)) && ?(1, ?(1, p ^))</a>
+        </code></pre>
+	    </div>
+	    <div id="KT" class="tab-pane fade">
+	     pre><code>
+<a href="#" id="a14" onclick="adda('a14')">?(1,p), p ^</a>
+      </code></pre>
+	    </div>
+	    <div id="KD4" class="tab-pane fade">
+	      <pre><code>
+<a href="#" id="a15" onclick="adda('a15')">?(2, p) && ?(2, ?(1, p ^))</a>
+<a href="#" id="a16" onclick="adda('a16')">?(3, ?(2, p)) && ?(2, ?(1, p ^))</a>
+        </code></pre>
+	    </div>
+	    <div id="syntax" class="tab-pane fade">
+	    	<pre><code>
+      p q r s t 'a 'b 'c ...    (propositions)
+      one, zero, top, bot       (units)
+      F * G, F && G             (tensor and par)
+      F & G, F + G              (with and oplus)
+      !(s, F), ?(s, F)          (exponentials)
+      s::= 1, 2, 3, ...         (subexponentials)
+      </code></pre>
+	      
+	    </div>
+	  </div>
+	</div>
+
+
+
+
+</body>
+</html>
