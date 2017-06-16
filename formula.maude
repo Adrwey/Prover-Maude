@@ -1,28 +1,37 @@
 *** Formulas
+
+load props-util .
+
 fmod FORMULA is
-    *** Definição dos novos tipos
-    sort Prop .
+    protecting PROPS-UTIL .
+
     sort Formula .
 
-    *** Toda proposição é uma fórmula
-    subsort Prop < Formula .
+    --- Every proposition is an formula
+    subsort Props < Formula .
 
-    *** Proposições
-    ops p q r s t a b c d : -> Prop [ctor] .
+    --- Defining operators
+    --- Tensor
+    op _x_ : Formula Formula -> Formula [ctor prec 15] .
+    
+    --- Par
+    op _8_ : Formula Formula -> Formula [ctor prec 15] .
+    
+    --- With
+    op _&_ : Formula Formula -> Formula [ctor prec 20] .
+    
+    --- Or
+    op _+_ : Formula Formula -> Formula [ctor prec 20] .
 
-    *** Formulas
-    op _x_ : Formula Formula -> Formula [ctor assoc comm prec 15] .
-    op _8_ : Formula Formula -> Formula [ctor assoc comm prec 15] .
-    op _&_ : Formula Formula -> Formula [ctor assoc prec 20] .
-    op _+_ : Formula Formula -> Formula [ctor assoc prec 20] .
-
-    *** bang e question
+    --- Bang and Question mark
     op !_ : Formula -> Formula [ctor] .
     op ?_ : Formula -> Formula [ctor] .
 
+    --- Not and lollipop
     op ~_ : Formula -> Formula [prec 10] .
     op _-o_ : Formula Formula -> Formula [prec 15] .
 
+    --- Constants
     op I : -> Formula [ctor] .
     op 1 : -> Formula [ctor] .
     op 0 : -> Formula [ctor] .

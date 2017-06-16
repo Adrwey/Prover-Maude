@@ -1,12 +1,14 @@
 <?php
 
   $code = $_POST['ncode'];
+  $P1 = $_POST['p1'];
+  $P2 = $_POST['p2'];
 
 
   $code2 = "load am7ll .
-            red MetaReduce " . $code ." in 'am7ll applying 'OrAddR1 .";
+            red >> 'OrAddR1 < " . $code ."> < ".$P1." & ".$P2." > .";
 
-
+  
   $tmpfname = tempnam("/var/www/html/Prover/RL", 'MAUDE');
 
 
@@ -16,17 +18,13 @@
 
    exec("maude -no-banner ".$tmpfname, $output);
 
-    for($i = 0; $i <= count($output); $i++){
+    for($i = 0; $i < count($output); $i++){
           if(strpos($output[$i], "Sequente:") > 0){
 
-          
-          //echo " <div id='div1'>  </div>";
-          $codigo = substr($output[$i], 17, strlen($output[$i]));
-          //echo "<button id='button1'>AA</button>";
-          //$posicao = strstr($output[$i], "Sequente:");
-          
-          echo "<b id='codigo'>".$codigo."</b>";
-          
+              $codigo = substr($output[$i], 17, strlen($output[$i]));
+    
+              echo "<b id='codigo'>".$codigo."</b>";
+              
           }
           
           

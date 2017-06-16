@@ -1,0 +1,57 @@
+load rules .
+
+mod PARSE-UTIL is
+	protecting RULES .
+
+	--- Parsing methods used to split between the main operator and the rest
+    op Main(_) : Contexto -> String .
+    op Rest(_) : Contexto -> String .
+    op ParseSequente(_) : SSequente -> String .
+
+    --- Basis case
+    eq Main(p:Props) = toString(p:Props) .
+    eq Rest(p:Props) = toString(p:Props) .
+
+    --- Case of receiving a set of context or sequente. This one must be called on the last situation (other wise)
+    eq Main( (C:Contexto, C':Contexto) ) = Main(C:Contexto) + ", " + Main(C':Contexto) [owise] .
+    eq Rest( (C:Contexto, C':Contexto) ) = Rest(C:Contexto) + ", " + Rest(C':Contexto) [owise] .
+    eq ParseSequente((S1:Sequente || S2:Sequente)) = ParseSequente(S1:Sequente) + " || " + ParseSequente(S2:Sequente) [owise] .
+
+    --- Case of empty context
+    eq Main(empty) = "empty" .
+    eq Rest(empty) = "empty" .
+
+    --- Other cases
+    eq Main((F:Formula 8 G:Formula) ) = "PAR # ("    + Rest(F:Formula) + ") # ("  + Rest(G:Formula) + ")" .
+    eq Main((F:Formula + G:Formula) ) = "PLUS # ("   + Rest(F:Formula) + ") # ("  + Rest(G:Formula) + ")" .
+    eq Main((F:Formula & G:Formula) ) = "WITH # ("   + Rest(F:Formula) + ") # ("  + Rest(G:Formula) + ")" .
+    eq Main((F:Formula x G:Formula) ) = "TENSOR # (" + Rest(F:Formula) + ") # ("  + Rest(G:Formula) + ")" .
+    eq Main((F:Formula -o G:Formula)) = "LPOP # ("   + Rest(F:Formula) + ") # ("  + Rest(G:Formula) + ")" .
+    eq Main( ! F:Formula )            = "BANG # ("   + Rest(F:Formula) + ")" .
+    eq Main( ? F:Formula )            = "QMARK # ("  + Rest(F:Formula) + ")" .
+    eq Main( ~ F:Formula )            = "NOT # ("    + Rest(F:Formula) + ")" .
+
+    eq Main(T)						  = "BOT" .
+    eq Main(I)						  = "TOP" .
+    eq Main(1)						  = "ONE" .
+    eq Main(0)						  = "ZERO" .
+
+    eq Rest((F:Formula 8 G:Formula) ) = "("          + Rest(F:Formula) + ") 8 ("  + Rest(G:Formula) + ")" .
+    eq Rest((F:Formula + G:Formula) ) = "("          + Rest(F:Formula) + ") + ("  + Rest(G:Formula) + ")" .
+    eq Rest((F:Formula & G:Formula) ) = "("          + Rest(F:Formula) + ") & ("  + Rest(G:Formula) + ")" .
+    eq Rest((F:Formula x G:Formula) ) = "("          + Rest(F:Formula) + ") x ("  + Rest(G:Formula) + ")" .
+    eq Rest((F:Formula -o G:Formula)) = "("          + Rest(F:Formula) + ") -o (" + Rest(G:Formula) + ")" .
+    eq Rest( ! F:Formula )            = "!("         + Rest(F:Formula) + ")" .
+    eq Rest( ? F:Formula )            = "?("         + Rest(F:Formula) + ")" .
+    eq Rest( ~ F:Formula )            = "~("         + Rest(F:Formula) + ")" .
+
+    eq Rest(T)						  = "BOT" .
+    eq Rest(I)						  = "TOP" .
+    eq Rest(1)						  = "ONE" .
+    eq Rest(0)						  = "ZERO" .
+    
+    eq ParseSequente( [C:Contexto] ; {D:Contexto} |-- [C':Contexto] ; {D':Contexto} ) =
+        "[" + Rest(C:Contexto)  + "] ; {" + Main(D:Contexto)  + "} |-- ["
+            + Rest(C':Contexto) + "] ; {" + Main(D':Contexto) + "}" .
+
+endm

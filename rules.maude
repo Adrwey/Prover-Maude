@@ -1,0 +1,80 @@
+load sequente .
+
+mod RULES is
+	protecting SEQUENTE .
+	protecting NAT .
+
+	vars C D C' D' R S W Z : Contexto .
+	vars F G H G' : Formula .
+
+	--- Initial rules
+	eq [Initial1] : [C] ; {F} |-- [D, F] ; {empty} = proved .
+	eq [Initial2] : [C, F] ; {empty} |-- [D] ; {F} = proved .
+	eq [initial3] : [C] ; {F} |-- [D] ; {F} = proved .
+
+	--- Negation rules
+	eq [NProp] : ~ (~ F) = F .
+	eq [NTensor] : ~ (F x G) = ((~ F) 8 (~ G)) .
+	eq [NPar] : ~ (F 8 G) = ((~ F) x (~ G)) .
+	eq [NPlus] : ~ (F + G) = ((~ F) & (~ G)) .
+	eq [NWith] : ~ (F & G) = ((~ F) + (~ G)) .
+	eq [N1] : ~ 1 = I .
+	eq [NI] : ~ I = 1 .
+	eq [NZero] : ~ 0 = T .
+	eq [NTop] : ~ T = 0 .
+	eq [NBang] : ~ (! F) = ? (~ F) .
+	eq [NQuestion] : ~ (? F) = ! (~ F) .
+
+	--- Implications
+	eq [Impl] : F -o G = (~ F) 8 G .
+
+	--- Multiplicatives
+	eq [TensorL] : [C'] ; {C, (F x G)} |-- [D'] ; {D} = [C'] ; {C, F, G} |-- [D'] ; {D} .
+	eq [OrMultR] : [D'] ; {D} |-- [C'] ; {F 8 G, C} = [D'] ; {D} |-- [C'] ; {F, G, C} .
+	eq [BottomR] : [C'] ; {C} |-- [D'] ; {I, D} = [C'] ; {C} |-- [D'] ; {D} .
+	eq [1L] : [C'] ; {C, 1} |-- [D'] ; {D} = [C'] ; {C} |-- [D'] ; {D} .
+	eq [1R] : [C] ; {empty} |-- [C'] ; {1} = proved .
+
+	--- Additives
+	eq [AndAddR] : [C'] ; {C} |-- [D'] ; {F & G, D} =
+		[C'] ; {C} |-- [D'] ; {F, D} || [C'] ; {C} |-- [D'] ; {G, D} .
+	eq [OrAddL] : [C'] ; {C, F + G} |-- [D'] ; {D} =
+		[C'] ; {C, F} |-- [D'] ; {D} || [C'] ; {C, G} |-- [D'] ; {D} .
+	eq [ZeroL] : [C'] ; {C, 0} |-- [D'] ; {D} = proved .
+	eq [TopR] : [C'] ; {C} |-- [D'] ; {T, D} = proved .
+
+	--- Split rules:
+	--- Tensor right
+	rl [TensorR] : [R] ; {C, D} |-- [S] ; {F x G, W, Z} =>
+		[R] ; {C} |-- [S] ; {F, W} || [R] ; {D} |-- [S] ; {G, Z} .
+
+	--- Or Multiplicative Left
+	rl [OrMultL] : [R] ; {C, D, F 8 G} |-- [S] ; {W, Z} =>
+		[R] ; {C, F} |-- [S] ; {W} || [R] ; {D, G} |-- [S] ; {Z} .
+	
+	---
+	rl [OrAddR1] : [C'] ; {C} |-- [D'] ; {F + G, D} =>
+		[C'] ; {C} |-- [D'] ; {F, D} .
+	rl [OrAddR2] : [C'] ; {C} |-- [D'] ; {F + G, D} =>
+		[C'] ; {C} |-- [D'] ; {G, D} .
+	rl [AndAddL1] : [C'] ; {C, F & G} |-- [D'] ; {D} =>
+		[C'] ; {C, F} |-- [D'] ; {D} .
+	rl [AndAddL2] : [C'] ; {C, F & G} |-- [D'] ; {D} =>
+		[C'] ; {C, G} |-- [D'] ; {D} .
+
+	--- Storing rules
+	eq [storeL] : [C] ; {! F, S} |-- [C'] ; {D'} =
+				  [C, F] ; {S} |-- [C'] ; {D'} .
+	eq [storeR] : [C] ; {D} |-- [C'] ; {? F, S} =
+				  [C] ; {D} |-- [C', F] ; {S} .
+
+	--- Bang and question mark rules
+	rl [BangDer] : [C] ; {empty} |-- [D] ; {! F} =>
+			  [C] ; {empty} |-- [D] ; {F} .
+	rl [QuestDer] : [C] ; {? F} |-- [D] ; {empty} =>
+			  [C] ; {F} |-- [D] ; {empty} .
+
+	--- Copying rules
+	rl [cpyL] : [C, F] ; {C'} |-- [D] ; {D'} => [C, F] ; {C', F} |-- [D] ; {D'} .
+	rl [cpyR] : [C] ; {C'} |-- [D, F] ; {D'} => [C] ; {C'} |-- [D, F] ; {D', F} .
+endm

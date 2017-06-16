@@ -1,0 +1,24 @@
+fmod PROPS-UTIL is
+    protecting STRING .
+
+    sort Props .
+
+    --- Propositions
+    ops a b c d p q r s t u v : -> Props [ctor] .
+
+    --- To string commands for parsing methods
+    
+    op toString(_) : Props -> String .
+
+    eq toString(a) = "a" .
+    eq toString(b) = "b" .
+    eq toString(c) = "c" .
+    eq toString(d) = "d" .
+    eq toString(p) = "p" .
+    eq toString(q) = "q" .
+    eq toString(r) = "r" .
+    eq toString(s) = "s" .
+    eq toString(t) = "t" .
+    eq toString(u) = "u" .
+    eq toString(v) = "v" .
+endfm
