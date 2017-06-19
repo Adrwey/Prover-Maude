@@ -6,11 +6,11 @@
 
 
   $code2 = "load am7ll .
-            red >> 'OrAddR2 < " . $code ."> < ".$P1." & ".$P2." > .";
+            red >> 'OrAddR2 < " . $code ."> < ".$P1." ; ".$P2." > .";
 
 
 
-  $tmpfname = tempnam("/var/www/html/Prover/RL", 'MAUDE');
+  $tmpfname = tempnam("/var/www/wordpress/Prover-Maude/RL", 'MAUDE');
 
 
   $arquivo = fopen($tmpfname, 'w'); 
@@ -19,18 +19,14 @@
 
    exec("maude -no-banner ".$tmpfname, $output);
 
-    for($i = 0; $i < count($output); $i++){
-          if(strpos($output[$i], "Sequente:") > 0){
-
-              $codigo = substr($output[$i], 17, strlen($output[$i]));
-     
-              
-              echo "<b id='codigo'>".$codigo."</b>";
-          
-          }
-          
-          
-        }
+   $posicao = strpos($output[3], "String");
+    if(strpos($output[3], '"') > 0){
+      $posAspas = strpos($output[3], '"');
+      $codigo =  substr($output[3], $posAspas+1, strlen($output[3])-$posAspas-2);
+    }
+    else{
+      $codigo = substr($output[3], $posicao+8, strlen($output[3]));
+    } 
 
 unlink($tmpfname); 
  ?>

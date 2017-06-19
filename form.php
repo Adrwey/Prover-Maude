@@ -14,7 +14,7 @@ $code = $_POST['ncode'];
   red > < " . $code ." > .";
 
 
-  $tmpfname = tempnam("/var/www/html/Prover", 'MAUDE');
+  $tmpfname = tempnam("/var/www/wordpress/Prover-Maude", 'MAUDE');
 
 
   $arquivo = fopen($tmpfname, 'w'); 
@@ -56,9 +56,9 @@ unlink($tmpfname);
 ?>
 
 <script type="text/javascript">
-    var verdadeiro, valValor;
+    var valValor;
     //var varVari = false, ee = false;
-    var ParA, ParB, OpOp, identificacao, StringPura;
+    var ParA, ParB, OpOp, identificacao, stringPura;
 
 
 
@@ -73,15 +73,15 @@ unlink($tmpfname);
     
     
     function ee1(ParA, ParB){
-
+      
        $.ajax({
               method: 'post',
               url: 'RL/AndAddL1.php',
-              data: {ncode: StringPura,
+              data: {ncode: stringPura,
               p1: ParA,
               p2: ParB },
               success: function(retorno){
-                adicionar1(retorno, true);
+                adicionar1(retorno);
               }
             }); 
     }
@@ -90,11 +90,11 @@ unlink($tmpfname);
        $.ajax({
               method: 'post',
               url: 'RL/AndAddL2.php',
-              data: {ncode: StringPura,
+              data: {ncode: stringPura,
               p1: ParA,
               p2: ParB },
               success: function(retorno){
-                adicionar1(retorno, true);
+                adicionar1(retorno);
               }
             }); 
     }
@@ -103,11 +103,11 @@ unlink($tmpfname);
             $.ajax({
               method: 'post',
               url: 'RL/OrAddR1.php',
-              data: {ncode: StringPura,
+              data: {ncode: stringPura,
               p1: ParA,
               p2: ParB },
               success: function(retorno){
-                adicionar1(retorno, true);
+                adicionar1(retorno);
 
               }
             });     
@@ -116,18 +116,18 @@ unlink($tmpfname);
        $.ajax({
               method: 'post',
               url: 'RL/OrAddR2.php',
-              data: {ncode: StringPura,
+              data: {ncode: stringPura,
               p1: ParA,
               p2: ParB },
               success: function(retorno){
-                adicionar1(retorno, true);
+                adicionar1(retorno);
               }
             });     
         }
 
         function adicionar1(valValor){
             var parte2; 
-            StringPura = valValor;
+            stringPura = valValor;
             executado = true;
             var vseq = valValor.split("||");
             for(var i = 0; i < vseq.length; i++){
@@ -164,7 +164,7 @@ unlink($tmpfname);
 
                     var FormulaL = Par1+Operador+Par2;
    
-                    stringPura = valValor.replace(sublinearL[j], FormulaL);
+                    stringPura = stringPura.replace(sublinearL[j], FormulaL);
 
                     var stringB1 = criarBotao(Par1, Par2, Operador, 'ee');
               
@@ -174,7 +174,8 @@ unlink($tmpfname);
 
                   }  
               }
-              $("#div1").prepend(esquerda + ' |-- ');
+              
+
 
 
 
@@ -196,7 +197,7 @@ unlink($tmpfname);
 
                     var Formula = Par1+Operador+Par2;
    
-                    stringPura = valValor.replace(sublinear[j], FormulaL);
+                    stringPura = stringPura.replace(sublinear[j], Formula);
 
                     var stringB1 = criarBotao(Par1, Par2, Operador, 'soma');
               
@@ -205,25 +206,21 @@ unlink($tmpfname);
                   } 
               }              
             
-            $("#div1").append(direita+"<br>_________________________________________________<br>");
 
+            $("#div1").prepend(esquerda + ' |-- ' + direita+"<br>_________________________________________________<br>");
+            
 
             }
+
+            //alert(stringPura);
         }
-
-
-
-
-
-
 
 
     $(document).ready(function(){
         var palavra;
         var executado = false;
         //Aqui recebemos uma string que recebeu diversas EQ até chegar nesse ponto, pode ser uma RL ou uma EQ final.
-        palavra = "<?php echo $codigo; ?>";
-        verdadeiro = palavra;  
+        palavra = "<?php echo $codigo; ?>"; 
         adicionar1(palavra);
         
         if((palavra.match(/ERRO/)) && (executado == true) ) {
