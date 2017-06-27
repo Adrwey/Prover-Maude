@@ -14,7 +14,7 @@ $code = $_POST['ncode'];
   red > < " . $code ." > .";
 
 
-  $tmpfname = tempnam("/var/www/wordpress/Prover-Maude", 'MAUDE');
+  $tmpfname = tempnam("/var/www/html/Prover", 'MAUDE');
 
 
   $arquivo = fopen($tmpfname, 'w'); 
@@ -184,7 +184,7 @@ unlink($tmpfname);
               var contextos = direita.split(";");
               var classico = contextos[0];
               var linear = contextos[1];
-              var formula = linear.slice(2, linear.length-2);
+              var formula = linear.slice(2, linear.length-1);
               var sublinear = formula.split(",");
               for(var j = 0; j < sublinear.length; j++){
                   var pedacos = sublinear[j].split('#');                

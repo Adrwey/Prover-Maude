@@ -9,7 +9,7 @@
             red >> 'AndAddL1 < " . $code ."> < ".$P1." ; ".$P2." > .";
 
 
-  $tmpfname = tempnam("/var/www/wordpress/Prover-Maude/RL", 'MAUDE');
+  $tmpfname = tempnam("/var/www/html/Prover/RL", 'MAUDE');
 
   
 
@@ -19,16 +19,23 @@
 
    exec("maude -no-banner ".$tmpfname, $output);
             
-    $posicao = strpos($output[3], "String");
-    if(strpos($output[3], '"') > 0){
-      $posAspas = strpos($output[3], '"');
-      $codigo =  substr($output[3], $posAspas+1, strlen($output[3])-$posAspas-2);
+    for($i = 0; $i < count($output); $i++){
+
+      if(strpos($output[$i], "String") > 0){
+            $posicao = strpos($output[$i], "String");
+            if(strpos($output[$i], '"') > 0){
+              $posAspas = strpos($output[$i], '"');
+              $codigo =  substr($output[$i], $posAspas+1, strlen($output[$i])-$posAspas-2);
+            }
+            else{
+              $codigo = substr($output[$i], $posicao+8, strlen($output[$i]));
+            }
+            break; 
+       }
+       else{
+           $codigo = " 'Result String' não encontrado na string. ";
+       }
     }
-    else{
-      $codigo = substr($output[3], $posicao+8, strlen($output[3]));
-    } 
-   
-  
  
   echo $codigo;
 
